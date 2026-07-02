@@ -1,101 +1,122 @@
-// src/pages/Plans/NewPlan.jsx
-// Placeholder page for creating a custom nutrition / meal plan
-// Build out the full plan builder here in a future iteration
-
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import LNavbar from "../../components/LNavbar";
 
 function NewPlan() {
+  const [formData, setFormData] = useState({
+    planName: "",
+    goal: "",
+    duration: "",
+    notes: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
-    <div>
+    <div className="page-wrapper">
       <LNavbar />
 
-      <div className="container py-5">
-        {/* Page header */}
-        <div className="text-center mb-5">
-          <h2>📋 Create a New Plan</h2>
-          <p className="text-muted">
-            Design a custom weekly nutrition or meal plan tailored to your schedule.
-          </p>
+      <div className="container" style={{ maxWidth: 720 }}>
+        <div className="page-header">
+          <h1>Create a Plan</h1>
+          <p>Build a custom nutrition or meal plan for your schedule</p>
         </div>
 
-        {/* Placeholder Form Card */}
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="card p-4">
-              {/* Plan name */}
+        <div className="row g-4">
+          <div className="col-md-8">
+            <div className="form-section">
+              <div className="section-title">Plan details</div>
+              <div className="section-desc">This feature is under development</div>
+
               <div className="mb-3">
-                <label htmlFor="plan-name" className="form-label fw-semibold">
-                  Plan Name
-                </label>
+                <label htmlFor="plan-name" className="form-label">Plan name</label>
                 <input
                   id="plan-name"
                   type="text"
+                  name="planName"
                   className="form-control"
-                  placeholder="e.g. My 4-Week Weight Loss Plan"
+                  placeholder="e.g. 4-week weight loss plan"
+                  value={formData.planName}
+                  onChange={handleChange}
                 />
               </div>
 
-              {/* Goal */}
               <div className="mb-3">
-                <label htmlFor="plan-goal" className="form-label fw-semibold">
-                  Goal
-                </label>
-                <select id="plan-goal" className="form-select">
-                  <option value="">Select a goal...</option>
-                  <option value="weight loss">Weight Loss</option>
-                  <option value="maintain">Maintain Weight</option>
-                  <option value="weight gain">Weight Gain / Muscle Building</option>
+                <label htmlFor="plan-goal" className="form-label">Goal</label>
+                <select
+                  id="plan-goal"
+                  name="goal"
+                  className="form-select"
+                  value={formData.goal}
+                  onChange={handleChange}
+                >
+                  <option value="">Select a goal</option>
+                  <option value="weight loss">Weight loss</option>
+                  <option value="maintain">Maintain weight</option>
+                  <option value="weight gain">Weight gain</option>
                 </select>
               </div>
 
-              {/* Duration */}
+              {/* duration and notes not on same row — developer just put them separate */}
               <div className="mb-3">
-                <label htmlFor="plan-duration" className="form-label fw-semibold">
-                  Duration
-                </label>
-                <select id="plan-duration" className="form-select">
-                  <option value="">Select duration...</option>
-                  <option value="1">1 Week</option>
-                  <option value="2">2 Weeks</option>
-                  <option value="4">4 Weeks</option>
-                  <option value="8">8 Weeks</option>
+                <label htmlFor="plan-duration" className="form-label">Duration</label>
+                <select
+                  id="plan-duration"
+                  name="duration"
+                  className="form-select"
+                  value={formData.duration}
+                  onChange={handleChange}
+                >
+                  <option value="">Select duration</option>
+                  <option value="1">1 week</option>
+                  <option value="2">2 weeks</option>
+                  <option value="4">4 weeks</option>
+                  <option value="8">8 weeks</option>
                 </select>
               </div>
 
-              {/* Notes */}
-              <div className="mb-4">
-                <label htmlFor="plan-notes" className="form-label fw-semibold">
-                  Notes / Preferences
-                </label>
+              <div style={{ marginBottom: 22 }}>
+                <label htmlFor="plan-notes" className="form-label">Notes / preferences</label>
                 <textarea
                   id="plan-notes"
+                  name="notes"
                   className="form-control"
                   rows={3}
                   placeholder="e.g. vegetarian, no dairy, prefer simple recipes..."
+                  value={formData.notes}
+                  onChange={handleChange}
+                  style={{ resize: "vertical" }}
                 />
               </div>
 
-              {/* Coming soon notice */}
-              <div className="alert alert-info py-2 text-center mb-3" role="alert">
-                🚧 Full plan builder coming soon! For now, try our{" "}
-                <Link to="/suggestions/new" style={{ color: "#0c5460" }}>
-                  instant nutrition suggestion
-                </Link>
-                .
-              </div>
-
-              {/* Disabled submit */}
               <button
                 id="create-plan-btn"
                 type="button"
-                className="btn w-100 text-white fw-semibold"
-                style={{ background: "linear-gradient(90deg, #2d6a4f, #52b788)" }}
+                className="btn-primary-custom"
                 disabled
+                style={{ opacity: 0.45, cursor: "not-allowed" }}
               >
-                Create Plan (Coming Soon)
+                Create plan
               </button>
             </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="col-md-4">
+            <div className="alert-info-soft" style={{ marginBottom: 12 }}>
+              <div style={{ fontSize: 12.5, fontWeight: 600, color: "#334155", marginBottom: 6 }}>
+                Coming soon
+              </div>
+              <p style={{ fontSize: 12.5, margin: 0 }}>
+                The custom plan builder is still being worked on. In the meantime, use the
+                suggestion tool to get an instant plan.
+              </p>
+            </div>
+            <Link to="/suggestions/new" className="btn-card-action" style={{ display: "block", textAlign: "center" }}>
+              Try instant suggestion
+            </Link>
           </div>
         </div>
       </div>

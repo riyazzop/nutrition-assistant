@@ -1,49 +1,73 @@
-// src/LandingPage.jsx
-// Public marketing-style landing page — shown to unauthenticated visitors
-
 import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
-    <div className="landing-hero">
-      <div>
-        {/* App logo / icon */}
-        <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>🥗</div>
+    <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", position: "relative" }}>
 
-        {/* Main heading */}
-        <h1>Nutrition Assistant</h1>
-
-        {/* Subheading / value proposition */}
-        <p>
-          Get personalized nutrition plans tailored to your body, goals, and
-          lifestyle — powered by science.
-        </p>
-
-        {/* Feature highlights */}
-        <div
-          className="d-flex justify-content-center gap-4 mb-4 flex-wrap"
-          style={{ opacity: 0.9 }}
-        >
-          <span>✅ Personalized Calorie Targets</span>
-          <span>✅ Macro Breakdowns</span>
-          <span>✅ Meal Suggestions</span>
+      {/* Nav */}
+      <nav className="landing-nav">
+        <div className="landing-logo">
+          <span className="brand-dot"></span>
+          NutriAssist
         </div>
-
-        {/* CTA Buttons */}
-        <div className="d-flex justify-content-center gap-3 flex-wrap">
+        <div className="landing-nav-links">
+          <Link to="/login">Sign in</Link>
           <Link
             to="/register"
-            className="btn btn-light btn-lg"
-            style={{ color: "#2d6a4f", fontWeight: "600" }}
+            style={{
+              marginLeft: 24,
+              backgroundColor: "#16a34a",
+              color: "#fff",
+              padding: "7px 18px",
+              borderRadius: 7,
+              fontSize: 13.5,
+              fontWeight: 600,
+            }}
           >
-            Get Started — It's Free
+            Get started
           </Link>
-          <Link
-            to="/login"
-            className="btn btn-outline-light btn-lg"
-          >
-            Log In
-          </Link>
+        </div>
+      </nav>
+
+      {/* Hero */}
+      <div className="landing-hero">
+        <div className="landing-hero-inner">
+          <div className="landing-tag">Nutrition Planning</div>
+
+          <h1>
+            Know exactly what<br />
+            your body <span>needs</span>
+          </h1>
+
+          <p>
+            Calculate your daily calorie targets, macronutrient breakdown, and get
+            meal suggestions — all based on your body metrics and fitness goal.
+          </p>
+
+          <div className="landing-cta-group">
+            <Link to="/register" className="btn-landing-primary">
+              Create free account
+            </Link>
+            <Link to="/login" className="btn-landing-secondary">
+              Sign in
+            </Link>
+          </div>
+
+          {/* Stats row */}
+          <div className="landing-stats">
+            <div className="landing-stat">
+              <h3>BMR</h3>
+              <p>Mifflin-St Jeor formula</p>
+            </div>
+            <div className="landing-stat">
+              <h3>3</h3>
+              <p>Fitness goals supported</p>
+            </div>
+            <div className="landing-stat">
+              <h3>5+</h3>
+              <p>Activity levels</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

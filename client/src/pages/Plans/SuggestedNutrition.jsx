@@ -1,31 +1,25 @@
-// src/pages/Plans/SuggestedNutrition.jsx
-// Displays all past nutrition suggestions for the logged-in user
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosConfig";
 import LNavbar from "../../components/LNavbar";
 
 function SuggestedNutrition() {
-  // ── State ──────────────────────────────────────────────────────────────────
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  // ── Fetch Suggestions on Mount ─────────────────────────────────────────────
   useEffect(() => {
     const fetchSuggestions = async () => {
       try {
-        // GET all suggestions — JWT auto-attached by axiosInstance interceptor
         const response = await axiosInstance.get("/suggestions/my-suggestions");
         setSuggestions(response.data.suggestions);
       } catch (err) {
         if (err.response?.status === 401) {
           navigate("/login");
         } else {
-          setError("Failed to load suggestions. Please try again.");
+          setError("Failed to load your plans. Please refresh and try again.");
         }
       } finally {
         setLoading(false);
@@ -35,120 +29,132 @@ function SuggestedNutrition() {
     fetchSuggestions();
   }, [navigate]);
 
-  // ── Goal badge color helper ────────────────────────────────────────────────
-  const goalBadgeColor = (goal) => {
-    if (goal === "weight loss") return "bg-primary";
-    if (goal === "weight gain") return "bg-warning text-dark";
-    return "bg-success";
+  const getGoalBadgeClass = (goal) => {
+    if (goal === "weight loss") return "goal-badge loss";
+    if (goal === "weight gain") return "goal-badge gain";
+    return "goal-badge maintain";
   };
 
-  // ── Loading ────────────────────────────────────────────────────────────────
+  const formatDate = (dateStr) => {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
   if (loading) {
     return (
-      <div>
+      <div className="page-wrapper">
         <LNavbar />
-        <div className="text-center py-5">
-          <div className="spinner-border text-success" role="status" />
-          <p className="mt-2 text-muted">Loading your plans...</p>
+        <div className="loading-wrap">
+          <div className="spinner-border spinner-border-sm text-secondary" role="status" />
+          <p>Loading your plans...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="page-wrapper">
       <LNavbar />
 
-      <div className="container py-5">
-        {/* Page Header */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="container" style={{ maxWidth: 1000 }}>
+        {/* Header */}
+        <div className="page-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
-            <h2>📊 My Nutrition Plans</h2>
-            <p className="text-muted mb-0">
-              {suggestions.length} plan{suggestions.length !== 1 ? "s" : ""} generated
+            <h1>My Plans</h1>
+            <p>
+              {suggestions.length > 0
+                ? `${suggestions.length} plan${suggestions.length !== 1 ? "s" : ""} generated`
+                : "No plans yet"}
             </p>
           </div>
           <Link
             to="/suggestions/new"
             id="new-suggestion-link"
-            className="btn text-white"
-            style={{ background: "linear-gradient(90deg, #2d6a4f, #52b788)" }}
+            className="btn-primary-custom"
+            style={{ width: "auto", padding: "9px 20px" }}
           >
-            + New Plan
+            New plan
           </Link>
         </div>
 
         {/* Error */}
-        {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="alert-error">{error}</div>}
 
-        {/* Empty State */}
+        {/* Empty state */}
         {suggestions.length === 0 && !error && (
-          <div className="text-center py-5">
-            <div style={{ fontSize: "4rem" }}>🌿</div>
-            <h4 className="mt-3">No plans yet!</h4>
-            <p className="text-muted">Generate your first nutrition suggestion to get started.</p>
-            <Link to="/suggestions/new" className="btn btn-success mt-2">
-              Get My First Plan
+          <div className="empty-state">
+            <h4>No plans generated yet</h4>
+            <p>
+              Get your first personalized nutrition suggestion to get started.
+            </p>
+            <Link to="/suggestions/new" className="btn-card-action" style={{ display: "inline-block" }}>
+              Get my first plan
             </Link>
           </div>
         )}
 
-        {/* Suggestion Cards */}
-        <div className="row g-4">
-          {suggestions.map((suggestion) => (
-            <div key={suggestion._id} className="col-md-6 col-lg-4">
-              <div className="card h-100 p-3">
-                {/* Card Header: goal + date */}
-                <div className="d-flex justify-content-between align-items-start mb-3">
-                  <span className={`badge ${goalBadgeColor(suggestion.goal)}`}>
-                    {suggestion.goal}
-                  </span>
-                  <small className="text-muted">
-                    {new Date(suggestion.createdAt).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </small>
+        {/* Cards */}
+        <div className="row g-3">
+          {suggestions.map((s) => (
+            <div key={s._id} className="col-md-6 col-lg-4">
+              <div className="suggestion-card">
+                {/* Card top: goal + date */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 16,
+                  }}
+                >
+                  <span className={getGoalBadgeClass(s.goal)}>{s.goal}</span>
+                  <span className="text-muted-sm">{formatDate(s.createdAt)}</span>
                 </div>
 
                 {/* Calories */}
-                <div className="text-center mb-3">
-                  <h3 style={{ color: "#2d6a4f", fontWeight: "800" }}>
-                    {suggestion.dailyCalories}
-                  </h3>
-                  <small className="text-muted">kcal / day</small>
+                <div style={{ marginBottom: 14 }}>
+                  <div className="calorie-display">{s.dailyCalories}</div>
+                  <div className="calorie-label">kcal per day</div>
                 </div>
 
                 {/* Macros */}
-                <div className="d-flex justify-content-around mb-3">
-                  <div className="text-center">
-                    <div className="fw-bold text-success">{suggestion.macros?.protein}g</div>
-                    <small className="text-muted">Protein</small>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 0,
+                    borderTop: "1px solid #f1f5f9",
+                    borderBottom: "1px solid #f1f5f9",
+                    paddingTop: 12,
+                    paddingBottom: 12,
+                    marginBottom: 14,
+                  }}
+                >
+                  <div style={{ flex: 1, textAlign: "center" }}>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>{s.macros?.protein}g</div>
+                    <div style={{ fontSize: 10.5, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.06em" }}>Protein</div>
                   </div>
-                  <div className="text-center">
-                    <div className="fw-bold text-primary">{suggestion.macros?.carbs}g</div>
-                    <small className="text-muted">Carbs</small>
+                  <div style={{ flex: 1, textAlign: "center", borderLeft: "1px solid #f1f5f9", borderRight: "1px solid #f1f5f9" }}>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>{s.macros?.carbs}g</div>
+                    <div style={{ fontSize: 10.5, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.06em" }}>Carbs</div>
                   </div>
-                  <div className="text-center">
-                    <div className="fw-bold text-warning">{suggestion.macros?.fats}g</div>
-                    <small className="text-muted">Fats</small>
+                  <div style={{ flex: 1, textAlign: "center" }}>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: "#0f172a" }}>{s.macros?.fats}g</div>
+                    <div style={{ fontSize: 10.5, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.06em" }}>Fats</div>
                   </div>
                 </div>
 
-                {/* Meal suggestions preview */}
-                <hr />
-                <h6 className="fw-semibold mb-2">🍽 Meals</h6>
-                <ul className="list-unstyled mb-0" style={{ fontSize: "0.85rem" }}>
-                  {/* Show first 3 meals only to keep card compact */}
-                  {suggestion.mealSuggestions?.slice(0, 3).map((meal, i) => (
-                    <li key={i} className="text-muted mb-1">
-                      • {meal}
-                    </li>
+                {/* Meal preview */}
+                <div className="text-muted-sm fw-600" style={{ marginBottom: 8 }}>Meals</div>
+                <ul className="meal-list">
+                  {s.mealSuggestions?.slice(0, 3).map((meal, i) => (
+                    <li key={i}>{meal}</li>
                   ))}
-                  {suggestion.mealSuggestions?.length > 3 && (
-                    <li className="text-muted">
-                      + {suggestion.mealSuggestions.length - 3} more...
+                  {s.mealSuggestions?.length > 3 && (
+                    <li style={{ color: "#94a3b8" }}>
+                      +{s.mealSuggestions.length - 3} more
                     </li>
                   )}
                 </ul>

@@ -1,12 +1,8 @@
-// src/Register.jsx
-// Registration form — creates a new user account and stores JWT
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "./api/axiosConfig";
 
 function Register() {
-  // ── Controlled form state ──────────────────────────────────────────────────
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,25 +13,18 @@ function Register() {
 
   const navigate = useNavigate();
 
-  // ── Handle input changes ───────────────────────────────────────────────────
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ── Handle form submission ─────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      // POST new user data to the backend register endpoint
       const response = await axiosInstance.post("/users/register", formData);
-
-      // Save the JWT token received after successful registration
       localStorage.setItem("token", response.data.token);
-
-      // Redirect to the main app dashboard
       navigate("/home");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed. Please try again.");
@@ -45,90 +34,101 @@ function Register() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        {/* Header */}
-        <div className="text-center mb-4">
-          <span style={{ fontSize: "2.5rem" }}>🥗</span>
-          <h2 className="mt-2">Create Account</h2>
-          <p className="text-muted">Start your nutrition journey today</p>
+    <div className="auth-page">
+      {/* Left panel */}
+      <div className="auth-left">
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 36 }}>
+            <span className="brand-dot" style={{ width: 10, height: 10 }}></span>
+            <span style={{ color: "#ffffff", fontWeight: 700, fontSize: 15 }}>NutriAssist</span>
+          </div>
+          <h2>Start your nutrition<br />journey today.</h2>
+          <p style={{ marginTop: 12 }}>
+            Create your account and get a personalized nutrition plan within minutes —
+            no equipment or dietitian required.
+          </p>
+          <ul className="auth-feature-list">
+            <li>Free to get started</li>
+            <li>Calorie and macro calculations</li>
+            <li>Weight loss, gain or maintain goals</li>
+            <li>Saves all your plans automatically</li>
+          </ul>
         </div>
+      </div>
 
-        {/* Error alert */}
-        {error && (
-          <div className="alert alert-danger py-2" role="alert">
-            {error}
-          </div>
-        )}
+      {/* Right panel */}
+      <div className="auth-right">
+        <div className="auth-form-box">
+          <h3>Create account</h3>
+          <p className="subtitle">Fill in your details to get started</p>
 
-        {/* Register Form */}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="reg-name" className="form-label fw-semibold">
-              Full Name
-            </label>
-            <input
-              id="reg-name"
-              type="text"
-              name="name"
-              className="form-control"
-              placeholder="John Doe"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          {error && <div className="alert-error">{error}</div>}
 
-          <div className="mb-3">
-            <label htmlFor="reg-email" className="form-label fw-semibold">
-              Email Address
-            </label>
-            <input
-              id="reg-email"
-              type="email"
-              name="email"
-              className="form-control"
-              placeholder="you@example.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="reg-name" className="form-label">
+                Full name
+              </label>
+              <input
+                id="reg-name"
+                type="text"
+                name="name"
+                className="form-control"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <div className="mb-4">
-            <label htmlFor="reg-password" className="form-label fw-semibold">
-              Password
-            </label>
-            <input
-              id="reg-password"
-              type="password"
-              name="password"
-              className="form-control"
-              placeholder="Minimum 6 characters"
-              value={formData.password}
-              onChange={handleChange}
-              minLength={6}
-              required
-            />
-          </div>
+            <div className="mb-3">
+              <label htmlFor="reg-email" className="form-label">
+                Email address
+              </label>
+              <input
+                id="reg-email"
+                type="email"
+                name="email"
+                className="form-control"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="btn w-100 text-white fw-semibold"
-            style={{ background: "linear-gradient(90deg, #2d6a4f, #52b788)" }}
-            disabled={loading}
-          >
-            {loading ? "Creating account..." : "Create Account"}
-          </button>
-        </form>
+            {/* slightly more gap here than above — intentional human imperfection */}
+            <div style={{ marginBottom: 24 }}>
+              <label htmlFor="reg-password" className="form-label">
+                Password
+              </label>
+              <input
+                id="reg-password"
+                type="password"
+                name="password"
+                className="form-control"
+                placeholder="Minimum 6 characters"
+                value={formData.password}
+                onChange={handleChange}
+                minLength={6}
+                required
+              />
+            </div>
 
-        {/* Redirect to Login */}
-        <p className="text-center mt-3 mb-0 text-muted">
-          Already have an account?{" "}
-          <Link to="/login" style={{ color: "#2d6a4f", fontWeight: "600" }}>
-            Sign in
-          </Link>
-        </p>
+            <button
+              type="submit"
+              className="btn-primary-custom"
+              disabled={loading}
+            >
+              {loading ? "Creating account..." : "Create account"}
+            </button>
+          </form>
+
+          <p className="auth-switch">
+            Already have an account?{" "}
+            <Link to="/login">Sign in</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1,86 +1,87 @@
-// src/components/LNavbar.jsx
-// Main navigation bar shown to logged-in users across the app
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function LNavbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // ── Logout Handler ──────────────────────────────────────────────────────────
   const handleLogout = () => {
-    // Remove the JWT from storage to "log out" the user
     localStorage.removeItem("token");
-    // Redirect to the landing page
     navigate("/");
   };
 
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <nav className="navbar navbar-expand-lg custom-navbar">
-      <div className="container-fluid">
-        {/* Brand / Logo */}
-        <Link className="navbar-brand" to="/home">
-          🥗 NutriAssist
+    <nav className="app-navbar navbar navbar-expand-lg">
+      <div className="container-fluid px-0">
+        {/* Brand */}
+        <Link className="navbar-brand d-flex align-items-center gap-2" to="/home">
+          <span className="brand-dot"></span>
+          NutriAssist
         </Link>
 
-        {/* Hamburger toggle for mobile screens */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler border-0"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#mainNavbar"
-          aria-controls="mainNavbar"
+          data-bs-target="#mainNav"
+          aria-controls="mainNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          style={{ boxShadow: "none", padding: "4px 8px" }}
         >
-          <span className="navbar-toggler-icon" />
+          <span className="navbar-toggler-icon" style={{ filter: "invert(1)", width: 18, height: 18 }} />
         </button>
 
-        {/* Nav Links */}
-        <div className="collapse navbar-collapse" id="mainNavbar">
-          <ul className="navbar-nav ms-auto gap-2 align-items-lg-center">
-            {/* Dashboard link */}
+        <div className="collapse navbar-collapse" id="mainNav">
+          <ul className="navbar-nav ms-auto align-items-lg-center" style={{ gap: 2 }}>
             <li className="nav-item">
-              <Link className="nav-link" to="/home">
-                🏠 Home
+              <Link
+                className={`nav-link ${isActive("/home") ? "active-link" : ""}`}
+                to="/home"
+              >
+                Home
               </Link>
             </li>
-
-            {/* Create a new nutrition plan */}
             <li className="nav-item">
-              <Link className="nav-link" to="/plans/new">
-                📋 New Plan
+              <Link
+                className={`nav-link ${isActive("/plans/new") ? "active-link" : ""}`}
+                to="/plans/new"
+              >
+                New Plan
               </Link>
             </li>
-
-            {/* Get a new AI suggestion */}
             <li className="nav-item">
-              <Link className="nav-link" to="/suggestions/new">
-                ✨ New Suggestion
+              <Link
+                className={`nav-link ${isActive("/suggestions/new") ? "active-link" : ""}`}
+                to="/suggestions/new"
+              >
+                Get Suggestion
               </Link>
             </li>
-
-            {/* View past suggestions */}
             <li className="nav-item">
-              <Link className="nav-link" to="/suggestions">
-                📊 My Suggestions
+              <Link
+                className={`nav-link ${isActive("/suggestions") ? "active-link" : ""}`}
+                to="/suggestions"
+              >
+                My Plans
               </Link>
             </li>
-
-            {/* User profile */}
             <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                👤 Profile
+              <Link
+                className={`nav-link ${isActive("/profile") ? "active-link" : ""}`}
+                to="/profile"
+              >
+                Profile
               </Link>
             </li>
-
-            {/* Logout button */}
-            <li className="nav-item">
+            <li className="nav-item ms-lg-2">
               <button
                 id="logout-btn"
-                className="btn btn-outline-light btn-sm"
+                className="btn-logout"
                 onClick={handleLogout}
               >
-                Logout
+                Log out
               </button>
             </li>
           </ul>

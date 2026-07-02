@@ -1,32 +1,25 @@
-// src/pages/User/UserData.jsx
-// Profile page — fetches and displays the logged-in user's account details
-
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axiosInstance from "../../api/axiosConfig";
 import UNavBar from "./UNavBar";
 
 function UserData() {
-  // ── State ──────────────────────────────────────────────────────────────────
-  const [user, setUser] = useState(null);    // User profile data from the API
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  // ── Fetch Profile on Mount ─────────────────────────────────────────────────
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // The axiosInstance interceptor automatically attaches the JWT header
         const response = await axiosInstance.get("/users/profile");
         setUser(response.data.user);
       } catch (err) {
-        // If token is invalid or expired, redirect to login
         if (err.response?.status === 401) {
           navigate("/login");
         } else {
-          setError("Failed to load profile. Please try again.");
+          setError("Could not load profile. Please refresh and try again.");
         }
       } finally {
         setLoading(false);
@@ -34,98 +27,98 @@ function UserData() {
     };
 
     fetchProfile();
-  }, [navigate]); // Re-run if navigate reference changes (it won't, but good practice)
+  }, [navigate]);
 
-  // ── Loading State ──────────────────────────────────────────────────────────
+  // Loading
   if (loading) {
     return (
-      <div>
+      <div className="page-wrapper">
         <UNavBar />
-        <div className="text-center py-5">
-          <div className="spinner-border text-success" role="status" />
-          <p className="mt-2 text-muted">Loading your profile...</p>
+        <div className="loading-wrap">
+          <div className="spinner-border spinner-border-sm text-secondary" role="status" />
+          <p>Loading profile...</p>
         </div>
       </div>
     );
   }
 
-  // ── Error State ────────────────────────────────────────────────────────────
+  // Error
   if (error) {
     return (
-      <div>
+      <div className="page-wrapper">
         <UNavBar />
-        <div className="container py-4">
-          <div className="alert alert-danger">{error}</div>
+        <div className="container" style={{ maxWidth: 640, paddingTop: 32 }}>
+          <div className="alert-error">{error}</div>
         </div>
       </div>
     );
   }
 
+  // Get initials for avatar
+  const initials = user?.name
+    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+    : "?";
+
   return (
-    <div>
-      {/* User-section navigation bar */}
+    <div className="page-wrapper">
       <UNavBar />
 
-      <div className="container py-5">
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="card p-4">
-              {/* Profile avatar / icon */}
-              <div className="text-center mb-4">
-                <div
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg, #2d6a4f, #52b788)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "2.5rem",
-                    margin: "0 auto",
-                  }}
-                >
-                  👤
-                </div>
-                <h3 className="mt-3">{user?.name}</h3>
-                <span className="badge bg-success">{user?.role}</span>
-              </div>
+      <div className="container" style={{ maxWidth: 680 }}>
+        <div className="page-header">
+          <h1>Profile</h1>
+          <p>Your account information</p>
+        </div>
 
-              {/* Profile Info Fields */}
-              <div className="list-group list-group-flush">
-                <div className="list-group-item d-flex justify-content-between align-items-center py-3">
-                  <span className="fw-semibold text-muted">📧 Email</span>
-                  <span>{user?.email}</span>
-                </div>
-                <div className="list-group-item d-flex justify-content-between align-items-center py-3">
-                  <span className="fw-semibold text-muted">🎭 Role</span>
-                  <span className="text-capitalize">{user?.role}</span>
-                </div>
-                <div className="list-group-item d-flex justify-content-between align-items-center py-3">
-                  <span className="fw-semibold text-muted">📅 Member Since</span>
-                  <span>
-                    {user?.createdAt
-                      ? new Date(user.createdAt).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })
-                      : "—"}
-                  </span>
-                </div>
-              </div>
+        <div className="profile-card">
+          {/* Profile header */}
+          <div className="profile-header">
+            <div className="profile-avatar">{initials}</div>
+            <div className="profile-name">{user?.name}</div>
+            <span className="role-badge">{user?.role}</span>
+          </div>
 
-              {/* Quick actions */}
-              <div className="mt-4 text-center">
-                <a href="/suggestions/new" className="btn btn-success me-2">
-                  ✨ New Suggestion
-                </a>
-                <a href="/suggestions" className="btn btn-outline-success">
-                  📊 View History
-                </a>
-              </div>
+          {/* Fields */}
+          <div className="profile-field-list">
+            <div className="profile-field">
+              <span className="profile-field-label">Email address</span>
+              <span className="profile-field-value">{user?.email}</span>
+            </div>
+
+            <div className="profile-field">
+              <span className="profile-field-label">Account role</span>
+              <span className="profile-field-value" style={{ textTransform: "capitalize" }}>
+                {user?.role}
+              </span>
+            </div>
+
+            {/* slightly more padding on last row — human touch */}
+            <div className="profile-field" style={{ paddingBottom: 18 }}>
+              <span className="profile-field-label">Member since</span>
+              <span className="profile-field-value">
+                {user?.createdAt
+                  ? new Date(user.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : "—"}
+              </span>
             </div>
           </div>
+        </div>
+
+        {/* Actions */}
+        <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+          <Link to="/suggestions/new" className="btn-card-action">
+            Get a suggestion
+          </Link>
+          <Link
+            to="/suggestions"
+            className="btn-card-action"
+            style={{ marginLeft: 2 }}
+          >
+            View my plans
+          </Link>
         </div>
       </div>
     </div>

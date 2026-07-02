@@ -1,99 +1,113 @@
-// src/components/Home.jsx
-// Dashboard / Home page shown to logged-in users
-
 import { Link } from "react-router-dom";
 import LNavbar from "./LNavbar";
 
-function Home() {
-  // Try to get the user's name from localStorage for a personalized greeting
-  // (You could also fetch from the API, but localStorage keeps it simple)
-  const token = localStorage.getItem("token");
+// SVG icon components — keeps it dependency-free
+const IconChart = () => (
+  <svg viewBox="0 0 24 24" fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+  </svg>
+);
 
+const IconPlus = () => (
+  <svg viewBox="0 0 24 24" fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+
+const IconList = () => (
+  <svg viewBox="0 0 24 24" fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <line x1="8" y1="6" x2="21" y2="6" />
+    <line x1="8" y1="12" x2="21" y2="12" />
+    <line x1="8" y1="18" x2="21" y2="18" />
+    <line x1="3" y1="6" x2="3.01" y2="6" />
+    <line x1="3" y1="12" x2="3.01" y2="12" />
+    <line x1="3" y1="18" x2="3.01" y2="18" />
+  </svg>
+);
+
+function Home() {
   return (
-    <div>
-      {/* Top navigation bar */}
+    <div className="page-wrapper">
       <LNavbar />
 
-      {/* Hero / Welcome Header */}
-      <div className="dashboard-header">
-        <h1>Welcome to Your Nutrition Dashboard 🥗</h1>
-        <p className="lead mb-0">
-          Track your nutrition, get personalized meal plans, and reach your health goals.
-        </p>
-      </div>
+      <div className="container" style={{ maxWidth: 960 }}>
+        {/* Page header */}
+        <div className="page-header">
+          <h1>Dashboard</h1>
+          <p>Manage your nutrition plans and track your progress</p>
+        </div>
 
-      <div className="container py-4">
-        <h2 className="mb-4 text-center text-muted">What would you like to do today?</h2>
+        {/* Quick actions */}
+        <h6 style={{ fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#94a3b8", marginBottom: 14 }}>
+          Quick Actions
+        </h6>
 
-        {/* Quick Action Cards */}
-        <div className="row g-4 justify-content-center">
-          {/* Card: New Nutrition Suggestion */}
+        <div className="row g-3">
+          {/* Get suggestion */}
           <div className="col-md-4">
-            <div className="card h-100 text-center p-4">
-              <div style={{ fontSize: "3rem" }}>✨</div>
-              <h4 className="mt-3">Get a Suggestion</h4>
-              <p className="text-muted">
-                Enter your body metrics and goal to get a personalized calorie and
-                macro breakdown with meal ideas.
+            <div className="action-card">
+              <div className="action-card-icon">
+                <IconChart />
+              </div>
+              <h5>Get a Suggestion</h5>
+              <p>
+                Enter your body metrics and goal to get a calorie target and
+                macronutrient breakdown with meal ideas.
               </p>
-              <Link
-                to="/suggestions/new"
-                id="quick-link-new-suggestion"
-                className="btn mt-auto text-white"
-                style={{ background: "linear-gradient(90deg, #2d6a4f, #52b788)" }}
-              >
-                Start Now →
+              <Link to="/suggestions/new" id="quick-link-new-suggestion" className="btn-card-action">
+                Start now
               </Link>
             </div>
           </div>
 
-          {/* Card: View Past Suggestions */}
+          {/* View history */}
           <div className="col-md-4">
-            <div className="card h-100 text-center p-4">
-              <div style={{ fontSize: "3rem" }}>📊</div>
-              <h4 className="mt-3">My Suggestions</h4>
-              <p className="text-muted">
-                View all your previously generated nutrition plans and track your
-                progress over time.
+            <div className="action-card">
+              <div className="action-card-icon">
+                <IconList />
+              </div>
+              <h5>My Plans</h5>
+              <p>
+                View all previously generated nutrition plans. Each plan shows
+                calories, macros, and meal suggestions.
               </p>
-              <Link
-                to="/suggestions"
-                id="quick-link-suggestions"
-                className="btn mt-auto btn-outline-success"
-              >
-                View History →
+              <Link to="/suggestions" id="quick-link-suggestions" className="btn-card-action">
+                View history
               </Link>
             </div>
           </div>
 
-          {/* Card: Create a Plan */}
+          {/* New plan */}
           <div className="col-md-4">
-            <div className="card h-100 text-center p-4">
-              <div style={{ fontSize: "3rem" }}>📋</div>
-              <h4 className="mt-3">Create a Plan</h4>
-              <p className="text-muted">
-                Build a custom nutrition or meal plan tailored to your specific
-                weekly schedule and preferences.
+            <div className="action-card">
+              <div className="action-card-icon">
+                <IconPlus />
+              </div>
+              <h5>Create a Plan</h5>
+              {/* slightly less bottom margin — natural inconsistency */}
+              <p style={{ marginBottom: 14 }}>
+                Build a custom weekly meal plan around your schedule and
+                dietary preferences.
               </p>
-              <Link
-                to="/plans/new"
-                id="quick-link-new-plan"
-                className="btn mt-auto btn-outline-secondary"
-              >
-                Create Plan →
+              <Link to="/plans/new" id="quick-link-new-plan" className="btn-card-action">
+                Create plan
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Profile quick access */}
-        <div className="text-center mt-5">
-          <p className="text-muted">
-            Want to update your details?{" "}
-            <Link to="/profile" style={{ color: "#2d6a4f", fontWeight: "600" }}>
-              View your profile
-            </Link>
-          </p>
+        {/* Info row */}
+        <div
+          className="alert-info-soft"
+          style={{ marginTop: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}
+        >
+          <span style={{ fontSize: 13, color: "#475569" }}>
+            Need to update your personal details?
+          </span>
+          <Link to="/profile" style={{ fontSize: 13, fontWeight: 500, color: "#16a34a" }}>
+            View profile
+          </Link>
         </div>
       </div>
     </div>

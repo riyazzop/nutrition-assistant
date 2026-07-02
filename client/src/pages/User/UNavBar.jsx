@@ -1,62 +1,57 @@
-// src/pages/User/UNavBar.jsx
-// Navigation bar scoped to the User section of the app
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function UNavBar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
 
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <nav className="navbar navbar-expand-lg custom-navbar">
-      <div className="container-fluid">
-        {/* Brand */}
-        <Link className="navbar-brand" to="/home">
-          🥗 NutriAssist
+    <nav className="app-navbar navbar navbar-expand-lg">
+      <div className="container-fluid px-0">
+        <Link className="navbar-brand d-flex align-items-center gap-2" to="/home">
+          <span className="brand-dot"></span>
+          NutriAssist
         </Link>
 
-        {/* Mobile hamburger */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler border-0"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#userNavbar"
-          aria-controls="userNavbar"
+          data-bs-target="#userNav"
+          aria-controls="userNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          style={{ boxShadow: "none", padding: "4px 8px" }}
         >
-          <span className="navbar-toggler-icon" />
+          <span className="navbar-toggler-icon" style={{ filter: "invert(1)", width: 18, height: 18 }} />
         </button>
 
-        {/* User section focused links */}
-        <div className="collapse navbar-collapse" id="userNavbar">
-          <ul className="navbar-nav ms-auto gap-2 align-items-lg-center">
+        <div className="collapse navbar-collapse" id="userNav">
+          <ul className="navbar-nav ms-auto align-items-lg-center" style={{ gap: 2 }}>
             <li className="nav-item">
-              <Link className="nav-link" to="/home">
-                🏠 Home
+              <Link className={`nav-link ${isActive("/home") ? "active-link" : ""}`} to="/home">
+                Home
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link active" to="/profile">
-                👤 My Profile
+              <Link className={`nav-link ${isActive("/profile") ? "active-link" : ""}`} to="/profile">
+                My Profile
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/suggestions">
-                📊 My Suggestions
+              <Link className={`nav-link ${isActive("/suggestions") ? "active-link" : ""}`} to="/suggestions">
+                My Plans
               </Link>
             </li>
-            <li className="nav-item">
-              <button
-                id="user-logout-btn"
-                className="btn btn-outline-light btn-sm"
-                onClick={handleLogout}
-              >
-                Logout
+            <li className="nav-item ms-lg-2">
+              <button id="user-logout-btn" className="btn-logout" onClick={handleLogout}>
+                Log out
               </button>
             </li>
           </ul>
