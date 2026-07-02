@@ -1,0 +1,126 @@
+/* App.css — global styles for the Nutrition Assistant app */
+
+/* ─── Base Reset & Typography ──────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ─── Card Styles ──────────────────────────────────────────────────────────── */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Auth Forms (Login / Register) ───────────────────────────────────────── */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2d6a4f, #52b788);
+}
+
+.auth-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.auth-card h2 {
+  color: #2d6a4f;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* ─── Navbar ───────────────────────────────────────────────────────────────── */
+.custom-navbar {
+  background: linear-gradient(90deg, #2d6a4f, #40916c);
+  padding: 0.8rem 2rem;
+}
+
+.custom-navbar .navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: white !important;
+}
+
+.custom-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.custom-navbar .nav-link:hover {
+  color: white !important;
+}
+
+/* ─── Landing Page ─────────────────────────────────────────────────────────── */
+.landing-hero {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1b4332, #2d6a4f, #52b788);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+}
+
+.landing-hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.landing-hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+/* ─── Dashboard / Home ─────────────────────────────────────────────────────── */
+.dashboard-header {
+  background: linear-gradient(135deg, #2d6a4f, #52b788);
+  color: white;
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: 0 0 24px 24px;
+  margin-bottom: 2rem;
+}
+
+/* ─── Macro Badges ─────────────────────────────────────────────────────────── */
+.macro-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f0faf5;
+  border: 1px solid #b7e4c7;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  margin: 0.25rem;
+}
+
+.macro-badge span:first-child {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d6a4f;
+}
+
+.macro-badge span:last-child {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
