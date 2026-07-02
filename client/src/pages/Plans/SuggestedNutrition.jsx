@@ -60,7 +60,6 @@ function SuggestedNutrition() {
       <LNavbar />
 
       <div className="container" style={{ maxWidth: 1000 }}>
-        {/* Header */}
         <div className="page-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
             <h1>My Plans</h1>
@@ -80,10 +79,8 @@ function SuggestedNutrition() {
           </Link>
         </div>
 
-        {/* Error */}
         {error && <div className="alert-error">{error}</div>}
 
-        {/* Empty state */}
         {suggestions.length === 0 && !error && (
           <div className="empty-state">
             <h4>No plans generated yet</h4>
@@ -96,12 +93,10 @@ function SuggestedNutrition() {
           </div>
         )}
 
-        {/* Cards */}
         <div className="row g-3">
           {suggestions.map((s) => (
             <div key={s._id} className="col-md-6 col-lg-4">
               <div className="suggestion-card">
-                {/* Card top: goal + date */}
                 <div
                   style={{
                     display: "flex",
@@ -114,13 +109,11 @@ function SuggestedNutrition() {
                   <span className="text-muted-sm">{formatDate(s.createdAt)}</span>
                 </div>
 
-                {/* Calories */}
                 <div style={{ marginBottom: 14 }}>
                   <div className="calorie-display">{s.dailyCalories}</div>
                   <div className="calorie-label">kcal per day</div>
                 </div>
 
-                {/* Macros */}
                 <div
                   style={{
                     display: "flex",
@@ -146,7 +139,6 @@ function SuggestedNutrition() {
                   </div>
                 </div>
 
-                {/* Meal preview */}
                 <div className="text-muted-sm fw-600" style={{ marginBottom: 8 }}>Meals</div>
                 <ul className="meal-list">
                   {s.mealSuggestions?.slice(0, 3).map((meal, i) => (

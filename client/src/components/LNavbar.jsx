@@ -14,7 +14,6 @@ function LNavbar() {
   return (
     <nav className="app-navbar navbar navbar-expand-lg">
       <div className="container-fluid px-0">
-        {/* Brand */}
         <Link className="navbar-brand d-flex align-items-center gap-2" to="/home">
           <span className="brand-dot"></span>
           NutriAssist

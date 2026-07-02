@@ -59,7 +59,6 @@ function NewPlan() {
                 </select>
               </div>
 
-              {/* duration and notes not on same row — developer just put them separate */}
               <div className="mb-3">
                 <label htmlFor="plan-duration" className="form-label">Duration</label>
                 <select
@@ -103,7 +102,6 @@ function NewPlan() {
             </div>
           </div>
 
-          {/* Sidebar */}
           <div className="col-md-4">
             <div className="alert-info-soft" style={{ marginBottom: 12 }}>
               <div style={{ fontSize: 12.5, fontWeight: 600, color: "#334155", marginBottom: 6 }}>

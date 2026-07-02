@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 function LandingPage() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", position: "relative" }}>
-
-      {/* Nav */}
       <nav className="landing-nav">
         <div className="landing-logo">
           <span className="brand-dot"></span>
@@ -29,7 +27,6 @@ function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero */}
       <div className="landing-hero">
         <div className="landing-hero-inner">
           <div className="landing-tag">Nutrition Planning</div>
@@ -53,7 +50,6 @@ function LandingPage() {
             </Link>
           </div>
 
-          {/* Stats row */}
           <div className="landing-stats">
             <div className="landing-stat">
               <h3>BMR</h3>

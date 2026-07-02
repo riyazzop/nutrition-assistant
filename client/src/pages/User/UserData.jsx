@@ -29,7 +29,6 @@ function UserData() {
     fetchProfile();
   }, [navigate]);
 
-  // Loading
   if (loading) {
     return (
       <div className="page-wrapper">
@@ -42,7 +41,6 @@ function UserData() {
     );
   }
 
-  // Error
   if (error) {
     return (
       <div className="page-wrapper">
@@ -54,7 +52,6 @@ function UserData() {
     );
   }
 
-  // Get initials for avatar
   const initials = user?.name
     ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
     : "?";
@@ -70,14 +67,12 @@ function UserData() {
         </div>
 
         <div className="profile-card">
-          {/* Profile header */}
           <div className="profile-header">
             <div className="profile-avatar">{initials}</div>
             <div className="profile-name">{user?.name}</div>
             <span className="role-badge">{user?.role}</span>
           </div>
 
-          {/* Fields */}
           <div className="profile-field-list">
             <div className="profile-field">
               <span className="profile-field-label">Email address</span>
@@ -91,7 +86,6 @@ function UserData() {
               </span>
             </div>
 
-            {/* slightly more padding on last row — human touch */}
             <div className="profile-field" style={{ paddingBottom: 18 }}>
               <span className="profile-field-label">Member since</span>
               <span className="profile-field-value">
@@ -107,7 +101,6 @@ function UserData() {
           </div>
         </div>
 
-        {/* Actions */}
         <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
           <Link to="/suggestions/new" className="btn-card-action">
             Get a suggestion

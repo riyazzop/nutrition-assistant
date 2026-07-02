@@ -35,7 +35,6 @@ function Register() {
 
   return (
     <div className="auth-page">
-      {/* Left panel */}
       <div className="auth-left">
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 36 }}>
@@ -56,7 +55,6 @@ function Register() {
         </div>
       </div>
 
-      {/* Right panel */}
       <div className="auth-right">
         <div className="auth-form-box">
           <h3>Create account</h3>
@@ -97,7 +95,6 @@ function Register() {
               />
             </div>
 
-            {/* slightly more gap here than above — intentional human imperfection */}
             <div style={{ marginBottom: 24 }}>
               <label htmlFor="reg-password" className="form-label">
                 Password

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import LNavbar from "./LNavbar";
 
-// SVG icon components — keeps it dependency-free
 const IconChart = () => (
   <svg viewBox="0 0 24 24" fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
@@ -32,19 +31,16 @@ function Home() {
       <LNavbar />
 
       <div className="container" style={{ maxWidth: 960 }}>
-        {/* Page header */}
         <div className="page-header">
           <h1>Dashboard</h1>
           <p>Manage your nutrition plans and track your progress</p>
         </div>
 
-        {/* Quick actions */}
         <h6 style={{ fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#94a3b8", marginBottom: 14 }}>
           Quick Actions
         </h6>
 
         <div className="row g-3">
-          {/* Get suggestion */}
           <div className="col-md-4">
             <div className="action-card">
               <div className="action-card-icon">
@@ -61,7 +57,6 @@ function Home() {
             </div>
           </div>
 
-          {/* View history */}
           <div className="col-md-4">
             <div className="action-card">
               <div className="action-card-icon">
@@ -78,14 +73,12 @@ function Home() {
             </div>
           </div>
 
-          {/* New plan */}
           <div className="col-md-4">
             <div className="action-card">
               <div className="action-card-icon">
                 <IconPlus />
               </div>
               <h5>Create a Plan</h5>
-              {/* slightly less bottom margin — natural inconsistency */}
               <p style={{ marginBottom: 14 }}>
                 Build a custom weekly meal plan around your schedule and
                 dietary preferences.
@@ -97,7 +90,6 @@ function Home() {
           </div>
         </div>
 
-        {/* Info row */}
         <div
           className="alert-info-soft"
           style={{ marginTop: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}

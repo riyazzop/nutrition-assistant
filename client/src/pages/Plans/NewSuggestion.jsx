@@ -53,7 +53,6 @@ function NewSuggestion() {
         </div>
 
         <div className="row g-4">
-          {/* Form */}
           <div className="col-md-6">
             <div className="form-section">
               <div className="section-title">Your details</div>
@@ -95,7 +94,6 @@ function NewSuggestion() {
                     />
                   </div>
 
-                  {/* height gets full row — developer decided this mid-build */}
                   <div className="col-12">
                     <label htmlFor="ns-height" className="form-label">Height (cm)</label>
                     <input
@@ -159,7 +157,6 @@ function NewSuggestion() {
             </div>
           </div>
 
-          {/* Result */}
           <div className="col-md-6">
             {!result && !loading && (
               <div
@@ -197,7 +194,6 @@ function NewSuggestion() {
                   <p style={{ textTransform: "capitalize" }}>Goal: {result.goal}</p>
                 </div>
                 <div className="result-body">
-                  {/* Calories */}
                   <div style={{ marginBottom: 20 }}>
                     <div className="calorie-display" style={{ fontSize: 38, fontWeight: 700, color: "#0f172a", letterSpacing: "-0.04em" }}>
                       {result.dailyCalories}
@@ -207,7 +203,6 @@ function NewSuggestion() {
 
                   <div className="divider" />
 
-                  {/* Macros */}
                   <div style={{ marginBottom: 20 }}>
                     <div className="text-muted-sm fw-600" style={{ marginBottom: 10 }}>
                       Daily macros
@@ -230,7 +225,6 @@ function NewSuggestion() {
 
                   <div className="divider" />
 
-                  {/* Meal suggestions */}
                   <div>
                     <div className="text-muted-sm fw-600" style={{ marginBottom: 10 }}>
                       Meal suggestions

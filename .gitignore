@@ -3,6 +3,8 @@ node_modules/
 
 # Environment Variables
 .env
+.env.local
+.env.*.local
 
 # Build / Distribution
 dist/

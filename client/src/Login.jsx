@@ -31,7 +31,6 @@ function Login() {
 
   return (
     <div className="auth-page">
-      {/* Left panel */}
       <div className="auth-left">
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 36 }}>
@@ -52,7 +51,6 @@ function Login() {
         </div>
       </div>
 
-      {/* Right panel */}
       <div className="auth-right">
         <div className="auth-form-box">
           <h3>Sign in</h3>
